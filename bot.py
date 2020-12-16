@@ -13,8 +13,8 @@ bot = commands.Bot(command_prefix='Бот ')
 
 select = {
     "сотрудник": [6, br.add_worker, br.select_worker],
-    "должность": [3, br.add_post],
-    "местоработы": [3, br.add_workplace]
+    "должность": [3, br.add_post, br.select_posts],
+    "местоработы": [3, br.add_workplace, br.select_workplace]
 }
 
 @bot.event
@@ -45,6 +45,16 @@ async def покажи(ctx, *args):
         return
     func = select[cmd][2]
     text = func(args[1])
+    await ctx.send(text)
+
+@bot.command(pass_context=True)
+async def покажи_все(ctx, *args):
+    cmd = args[0]
+    if cmd in select.keys() is None:
+        await ctx.send("Неизвестная команда")
+        return
+    func = select[cmd][2]
+    text = func()
     await ctx.send(text)
 
 def main():

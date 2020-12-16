@@ -51,8 +51,9 @@ def add_post(params): # Передается 3 параметра
     db.add_item("post", params, table_params)
 
 def select_worker(id = None):
-    if not id.isdigit and id is not None:
-        return "ID должен быть числом"
+    if id is not None:
+        if not id.isdigit:
+            return "ID должен быть числом"
     # Выполняется, если все данные впорядке
     db = DataTool.DataBase()
 
@@ -62,7 +63,7 @@ def select_worker(id = None):
             current_post_id.index(int(id))
         except ValueError:
             return "Сотрудника с `id {}` не существует\n".format(id)
-    text = ""
+    text = "**Все сотрудники**\n"
     if id is None:
         result = db.select_item("workers")
         for worker in result:
@@ -70,10 +71,10 @@ def select_worker(id = None):
             post_name = post[1]
             post_salary = post[2]
             is_conf = "Нету"
-            if result[2] == 1:
+            if worker[2] == 1:
                 is_conf = "Есть"
-            text = "ID: {}\nСотрудник: {}\nНаличие конфидициальных данных: {}\nКонтакты: {}\nОбразование: {}\n\n".format(
-                result[0], result[1], is_conf, result[3], result[4]
+            text += "ID: {}\nСотрудник: {}\nНаличие конфидициальных данных: {}\nКонтакты: {}\nОбразование: {}\n\n".format(
+                worker[0], worker[1], is_conf, worker[3], worker[4]
             )
             text += "Работает на должности {} с зарплатой {} рублей.\n------------------------\n".format(post_name, post_salary)
         return text
@@ -91,21 +92,28 @@ def select_worker(id = None):
     text += "Работает на должности {} с зарплатой {} рублей.".format(post_name, post_salary)
     return text
 
-def select_post(id):
-    if not id.isdigit:
-        return "ID должен быть числом"
-    # Выполняется, если все данные впорядке
+def select_posts(id = None):
     db = DataTool.DataBase()
+    text = "**Все должности**\n"
+    result = db.select_item("post")
+    for item in result:
+        is_conf = "Нет"
+        if item[3]== 1:
+            is_conf = "Требуются"
+        text += "ID: {}\nНазвание должности: {}\nОклад: {}\nВакантность: {}\n------------------------------\n\n".format(
+            item[0], item[1], item[2], is_conf
+        )
+    return text
 
-    result = db.select_item("post", id)[0]
-    post = db.select_item("post", result[5])[0]
-    post_name = post[1]
-    post_salary = post[2]
-    is_conf = "Нету"
-    if result[2] == 1:
-        is_conf = "Есть"
-    text = "ID: {}\nСотрудник: {}\nНаличие конфидициальных данных: {}\nКонтакты: {}\nОбразование: {}\n\n".format(
-        result[0], result[1], is_conf, result[3], result[4]
-    )
-    text += "Работает на должности {} с зарплатой {} рублей.".format(post_name, post_salary)
+def select_workplace(id = None):
+    db = DataTool.DataBase()
+    text = "**Места работы**\n"
+    result = db.select_item("workplace")
+    for item in result:
+        is_conf = "Нет"
+        if item[1]== 1:
+            is_conf = "Есть монитор"
+        text += "ID: {}\nНаличие монитора : {}\nАдрес: {}\nЭтаж: {}\n------------------------------\n\n".format(
+            item[0], is_conf, item[3], item[2]
+        )
     return text
