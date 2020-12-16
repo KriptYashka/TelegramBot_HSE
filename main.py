@@ -57,7 +57,7 @@ class Media_bot:
         self.bot.infinity_polling(True)
 
 def main():
-    print('Бот запущен')
+    print('Телеграмм бот запущен')
     med_bot = Media_bot()
     med_bot.execute()
 
