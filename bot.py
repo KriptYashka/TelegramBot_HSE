@@ -13,7 +13,8 @@ bot = commands.Bot(command_prefix='Бот ')
 
 select = {
     "сотрудника": [6, br.add_worker],
-    "премию": [2, br.add_prize],
+    "должность": [3, br.add_post],
+    "местоработы": [3, br.add_workplace]
 }
 
 @bot.event
