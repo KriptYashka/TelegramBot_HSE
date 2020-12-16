@@ -57,3 +57,23 @@ class DataBase:
         """Добавляет в нужную таблицу какие-либо данные ( params )"""
         request_insert = get_insert_format(table, params, table_params)
         self.execute_and_commit(request_insert)
+
+    def select_item(self, table, id = None):
+        request = "SELECT * FROM {}".format(table)
+        if id is not None:
+            request += " WHERE id == {};".format(id)
+        self.cursor.execute(request)
+        return self.cursor.fetchall()
+
+    def delete_item(self, table, id):
+        request = "DELETE FROM {} WHERE id == {}".format(table, id)
+        self.execute_and_commit(request)
+
+    def get_id(self, table):
+        request = "SELECT * FROM {}".format(table)
+        self.cursor.execute(request)
+        result = self.cursor.fetchall()
+        arr = []
+        for item in result:
+            arr.append(item[0])
+        return arr
