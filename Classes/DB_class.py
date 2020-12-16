@@ -17,111 +17,123 @@ class DataBase:
 
     def create_all_tables(self):
         """Создает все необходимые таблицы"""
-        # # Сотрудник
-        # self.cursor.execute("""CREATE TABLE IF NOT EXISTS workers
-        # (id INTEGER PRIMARY KEY AUTOINCREMENT,
-        # name TEXT,
-        # description TEXT,
-        # contacts TEXT,
-        # education TEXT,
-        # salary_id INTEGER,
-        # workplace_id INTEGER
-        # );""")
-        # # Место работы
-        # self.cursor.execute("""CREATE TABLE IF NOT EXISTS workplace
-        # (id INTEGER PRIMARY KEY AUTOINCREMENT,
-        # monitor INTEGER,
-        # level INTEGER,
-        # build_id INTEGER
-        # );""")
-        # # Здание работы
-        # self.cursor.execute("""CREATE TABLE IF NOT EXISTS building
-        # (id INTEGER PRIMARY KEY AUTOINCREMENT,
-        # address TEXT
-        # );""")
-        # # Должность
-        # self.cursor.execute("""CREATE TABLE IF NOT EXISTS post
-        # (id INTEGER PRIMARY KEY AUTOINCREMENT,
-        # name TEXT,
-        # salary REAL,
-        # vacancy_rate TEXT,
-        # salary_id INTEGER
-        # );""")
-        # # Сотрудник-Должность
-        # self.cursor.execute("""CREATE TABLE IF NOT EXISTS worker_post
-        # (worker_id INTEGER PRIMARY KEY,
-        # post_id INTEGER PRIMARY KEY
-        # );""")
-        # # Зарплата
-        # self.cursor.execute("""CREATE TABLE IF NOT EXISTS salary
-        # (id INTEGER PRIMARY KEY AUTOINCREMENT,
-        # count REAL,
-        # prize_id INTEGER
-        # );""")
-        # # Премия
-        # self.cursor.execute("""CREATE TABLE IF NOT EXISTS prize
-        # (id INTEGER PRIMARY KEY AUTOINCREMENT,
-        # progress_plan REAL,
-        # month INTEGER
-        # );""")
+        # Сотрудник
+        self.cursor.execute("""CREATE TABLE IF NOT EXISTS workers
+        (id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT,
+        description TEXT,
+        contacts TEXT,
+        education TEXT,
+        salary_id INTEGER,
+        workplace_id INTEGER
+        );""")
+        # Место работы
+        self.cursor.execute("""CREATE TABLE IF NOT EXISTS workplace
+        (id INTEGER PRIMARY KEY AUTOINCREMENT,
+        monitor INTEGER,
+        level INTEGER,
+        build_id INTEGER
+        );""")
+        # Здание работы
+        self.cursor.execute("""CREATE TABLE IF NOT EXISTS building
+        (id INTEGER PRIMARY KEY AUTOINCREMENT,
+        address TEXT
+        );""")
+        # Должность
+        self.cursor.execute("""CREATE TABLE IF NOT EXISTS post
+        (id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT,
+        salary REAL,
+        vacancy_rate TEXT,
+        salary_id INTEGER
+        );""")
+        # Сотрудник-Должность
+        self.cursor.execute("""CREATE TABLE IF NOT EXISTS worker_post
+        (worker_id INTEGER,
+        post_id INTEGER
+        );""")
+        # Зарплата
+        self.cursor.execute("""CREATE TABLE IF NOT EXISTS salary
+        (id INTEGER PRIMARY KEY AUTOINCREMENT,
+        count REAL,
+        prize_id INTEGER
+        );""")
+        # Премия
+        self.cursor.execute("""CREATE TABLE IF NOT EXISTS prize
+        (id INTEGER PRIMARY KEY AUTOINCREMENT,
+        progress_plan REAL,
+        month INTEGER
+        );""")
+        # Претендент
+        self.cursor.execute("""CREATE TABLE IF NOT EXISTS applicant
+        (id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT,
+        education TEXT,
+        contact TEXT
+        );""")
+        # Претендент-должность
+        self.cursor.execute("""CREATE TABLE IF NOT EXISTS applicant_post
+        (applicant_id INTEGER,
+        post_id INTEGER
+        );""")
 
-        self.cursor.execute("""CREATE TABLE IF NOT EXISTS bonus(
-            bonus_id INT NOT NULL,
-            month_number INT NOT NULL,
-            percentage_of_completed INT NOT NULL,
-            CONSTRAINT PK_Bonus PRIMARY KEY (bonus_id)
-        );""")
-        self.cursor.execute("""CREATE TABLE IF NOT EXISTS salary(
-            salary_id INT NOT NULL,
-            bonus_id INT NOT NULL,
-            amount_in_month INT NOT NULL,
-            CONSTRAINT FK_Bonus FOREIGN KEY (bonus_id) REFERENCES bonus(bonus_id),
-            CONSTRAINT PK_Salary PRIMARY KEY (salary_id)
-        );""")
-        self.cursor.execute("""CREATE TABLE IF NOT EXISTS building(
-            building_id INT NOT NULL,
-            addres VARCHAR(255) NOT NULL,
-            CONSTRAINT PK_Building PRIMARY KEY (building_id)
-        );""")
-        self.cursor.execute("""CREATE TABLE IF NOT EXISTS workplace(
-            workplace_id INT NOT NULL,
-            building_id INT NOT NULL,
-            monitor_availability TEXT NOT NULL,
-            floor INT NOT NULL,
-            CONSTRAINT PK_Workplace PRIMARY KEY (workplace_id),
-            CONSTRAINT FK_Building FOREIGN KEY (building_id) REFERENCES
-            building(building_id)
-        );""")
-        self.cursor.execute("""CREATE TABLE IF NOT EXISTS worker(
-            worker_id INT NOT NULL,
-            workplace_id INT NOT NULL,
-            salary_id INT NOT NULL,
-            name VARCHAR(255) NOT NULL,
-            education VARCHAR(255) NOT NULL,
-            contacts VARCHAR(255) NOT NULL,
-            passport VARCHAR(255) NOT NULL,
-            confidential_information INT NOT NULL,
-            CONSTRAINT PK_Worker PRIMARY KEY (worker_id),
-            CONSTRAINT FK_Salary FOREIGN KEY (salary_id) REFERENCES salary(salary_id),
-            CONSTRAINT FK_Workplace FOREIGN KEY (workplace_id) REFERENCES
-            workplace(workplace_id)
-        );""")
-        self.cursor.execute("""CREATE TABLE IF NOT EXISTS position(
-            position_id INT NOT NULL,
-            salary_id INT NOT NULL,
-            name VARCHAR(255) NOT NULL,
-            wages INT NOT NULL,
-            vacancy INT NOT NULL,
-            CONSTRAINT PK_Position PRIMARY KEY (position_id),
-            CONSTRAINT FK_Salary FOREIGN KEY (salary_id) REFERENCES salary(salary_id)
-        );""")
-        self.cursor.execute("""CREATE TABLE IF NOT EXISTS applicant(
-            applicant_id INT NOT NULL,
-            name VARCHAR(255) NOT NULL,
-            education VARCHAR(255) NOT NULL,
-            contacts VARCHAR(255) NOT NULL,
-            CONSTRAINT PK_Applicant PRIMARY KEY (applicant_id)
-        );""")
+        # self.cursor.execute("""CREATE TABLE IF NOT EXISTS bonus(
+        #     bonus_id INT PRIMARY KEY AUTOINCREMENT NOT NULL,
+        #     month_number INT NOT NULL,
+        #     percentage_of_completed INT NOT NULL,
+        #     CONSTRAINT PK_Bonus PRIMARY KEY (bonus_id)
+        # );""")
+        # self.cursor.execute("""CREATE TABLE IF NOT EXISTS salary(
+        #     salary_id INT PRIMARY KEY AUTOINCREMENT NOT NULL,
+        #     bonus_id INT NOT NULL,
+        #     amount_in_month INT NOT NULL,
+        #     CONSTRAINT FK_Bonus FOREIGN KEY (bonus_id) REFERENCES bonus(bonus_id),
+        #     CONSTRAINT PK_Salary PRIMARY KEY (salary_id)
+        # );""")
+        # self.cursor.execute("""CREATE TABLE IF NOT EXISTS building(
+        #     building_id INT PRIMARY KEY AUTOINCREMENT NOT NULL,
+        #     addres VARCHAR(255) NOT NULL,
+        #     CONSTRAINT PK_Building PRIMARY KEY (building_id)
+        # );""")
+        # self.cursor.execute("""CREATE TABLE IF NOT EXISTS workplace(
+        #     workplace_id INT PRIMARY KEY AUTOINCREMENT NOT NULL,
+        #     building_id INT NOT NULL,
+        #     monitor_availability TEXT NOT NULL,
+        #     floor INT NOT NULL,
+        #     CONSTRAINT PK_Workplace PRIMARY KEY (workplace_id),
+        #     CONSTRAINT FK_Building FOREIGN KEY (building_id) REFERENCES
+        #     building(building_id)
+        # );""")
+        # self.cursor.execute("""CREATE TABLE IF NOT EXISTS worker(
+        #     worker_id INT PRIMARY KEY AUTOINCREMENT NOT NULL,
+        #     workplace_id INT NOT NULL,
+        #     salary_id INT NOT NULL,
+        #     name VARCHAR(255) NOT NULL,
+        #     education VARCHAR(255) NOT NULL,
+        #     contacts VARCHAR(255) NOT NULL,
+        #     passport VARCHAR(255) NOT NULL,
+        #     confidential_information INT NOT NULL,
+        #     CONSTRAINT PK_Worker PRIMARY KEY (worker_id),
+        #     CONSTRAINT FK_Salary FOREIGN KEY (salary_id) REFERENCES salary(salary_id),
+        #     CONSTRAINT FK_Workplace FOREIGN KEY (workplace_id) REFERENCES
+        #     workplace(workplace_id)
+        # );""")
+        # self.cursor.execute("""CREATE TABLE IF NOT EXISTS position(
+        #     position_id INT PRIMARY KEY AUTOINCREMENT NOT NULL,
+        #     salary_id INT NOT NULL,
+        #     name VARCHAR(255) NOT NULL,
+        #     wages INT NOT NULL,
+        #     vacancy INT NOT NULL,
+        #     CONSTRAINT PK_Position PRIMARY KEY (position_id),
+        #     CONSTRAINT FK_Salary FOREIGN KEY (salary_id) REFERENCES salary(salary_id)
+        # );""")
+        # self.cursor.execute("""CREATE TABLE IF NOT EXISTS applicant(
+        #     applicant_id INT PRIMARY KEY AUTOINCREMENT NOT NULL,
+        #     name VARCHAR(255) NOT NULL,
+        #     education VARCHAR(255) NOT NULL,
+        #     contacts VARCHAR(255) NOT NULL,
+        #     CONSTRAINT PK_Applicant PRIMARY KEY (applicant_id)
+        # );""")
 
     def execute_and_commit(self, request):
         self.cursor.execute(request)
