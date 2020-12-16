@@ -3,6 +3,8 @@ import telebot
 import datetime
 import asyncio
 
+import Classes.DB_class as DataTool
+
 
 def get_menu_text(actions):
     """Текст меню"""
@@ -58,8 +60,9 @@ class Media_bot:
 
 def main():
     print('Телеграмм бот запущен')
-    med_bot = Media_bot()
-    med_bot.execute()
+    db = DataTool.DataBase()
+    # med_bot = Media_bot()
+    # med_bot.execute()
 
 
 if __name__ == "__main__":
