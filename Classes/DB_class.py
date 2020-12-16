@@ -139,12 +139,7 @@ class DataBase:
         self.cursor.execute(request)
         self.conn.commit()
 
-    def telegram_channel_delete(self, channel_url):
-        """Удаляет канал"""
-        request_insert = ""
-        self.execute_and_commit(request_insert)
-
-    def telegram_stats_delete(self, channel_url):
-        """Удаляет одну статистику канала"""
-        request_insert = ""
+    def add_item(self, table, params):
+        """Добавляет в нужную таблицу какие-либо данные ( params )"""
+        request_insert = get_insert_format(table, params)
         self.execute_and_commit(request_insert)
