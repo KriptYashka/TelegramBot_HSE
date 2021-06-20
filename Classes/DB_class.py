@@ -1,12 +1,14 @@
 import sqlite3
 import datetime
 
+
 def get_table_form(params):
     text = "("
     for item in params:
         text += item + ","
     text = text[:-1] + ")"
     return text
+
 
 def get_insert_format(table, params, table_params):
     req = "INSERT INTO {} {} VALUES (".format(table, get_table_form(table_params))
@@ -15,8 +17,10 @@ def get_insert_format(table, params, table_params):
     req = req[:-1] + ");"
     return req
 
+
 class DataBase:
     """Создавать и использовать только в одной функции. Нельзя делать свойством другого класса."""
+
     def __init__(self):
         self.conn = sqlite3.connect("work.db")
         self.cursor = self.conn.cursor()
@@ -58,7 +62,7 @@ class DataBase:
         request_insert = get_insert_format(table, params, table_params)
         self.execute_and_commit(request_insert)
 
-    def select_item(self, table, id = None):
+    def select_item(self, table, id=None):
         request = "SELECT * FROM {}".format(table)
         if id is not None:
             request += " WHERE id == {};".format(id)
